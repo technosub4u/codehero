@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CodeHero Cloud</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2a004e, #000000);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            padding: 20px;
+            background: #3a0066;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: left;
+        }
+        h2 {
+            color: #bb86fc;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .contact-form button {
+            background: #bb86fc;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .contact-form button:hover {
+            background: #9a67ea;
+        }
+        footer {
+    padding: 20px;
+    background: #3a0066;
+    color: #ffffff; /* Ensure the text is white */
+    font-size: 16px;
+    text-align: center;
+    border-top: 5px solid #bb86fc; /* Beautiful top border */
+    border-bottom: 5px solid #bb86fc; /* Beautiful bottom border */
+    border-radius: 10px; /* Rounded corners for a smooth look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+footer a {
+    color: #ffffff; /* Make the email link white */
+    text-decoration: none;
+    font-weight: bold; /* Make the email text bold */
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+    </header>
+    
+    <section>
+        <h2>We'd Love to Hear From You!</h2>
+        <p>If you have any questions, feedback, or inquiries, feel free to reach out to us using the form below.</p>
+        
+        <div class="contact-form">
+            <input id="name" type="text" placeholder="Your Name" required>
+            <input id="email" type="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="button" onclick="submitForm()">Send Message</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Contact us directly at: <a href="mailto:mail@codehero.cloud">mail@codehero.cloud</a></p>
+    </footer>
+
+    <script>
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if (!name || !email || !message) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            const formData = {
+                name: name,
+                email: email,
+                message: message
+            };
+
+            fetch('/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Your message has been sent!');
+                } else {
+                    alert('There was an issue sending your message. Please try again later.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>
